@@ -1,16 +1,16 @@
 {
   "rewrites": [
     {
-      "source": "/api/marker",
-      "destination": "https://pathpilot-back.vercel.app/marker"
+      "source": "/api/marker*",
+      "destination": "https://pathpilot-back.vercel.app/api/marker*"
     },
     {
-      "source": "/api/nearest",
-      "destination": "https://pathpilot-back.vercel.app/nearest"
+      "source": "/api/nearest*",
+      "destination": "https://pathpilot-back.vercel.app/api/nearest*"
     },
     {
-      "source": "/api/route",
-      "destination": "https://pathpilot-back.vercel.app/route"
+      "source": "/api/route*",
+      "destination": "https://pathpilot-back.vercel.app/api/route*"
     }
   ]
 }
