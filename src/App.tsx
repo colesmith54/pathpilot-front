@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Spacer } from "@/components/ui/spacer"
+import { Polygon } from "@/components/ui/polygon"
 import { GoArrowDown } from "react-icons/go"
 import { MultiStepLoader as Loader } from "@/components/ui/load";
 
@@ -59,6 +60,53 @@ function fillInputs(marker: Marker, from: string, setFrom: (value: string) => vo
     setFrom(to);
     setTo(name);
   }
+}
+
+function encodePolyline(points: google.maps.LatLngLiteral[]): string {
+  let encodedPolyline = '';
+  let prevLat = 0;
+  let prevLng = 0;
+
+  for (const { lat, lng } of points) {
+    const dLat = lat - prevLat;
+    const dLng = lng - prevLng;
+
+    const encodedLat = encodeSignedDecimal(dLat);
+    const encodedLng = encodeSignedDecimal(dLng);
+
+    encodedPolyline += encodedLat + encodedLng;
+
+    prevLat = lat;
+    prevLng = lng;
+  }
+
+  return encodedPolyline;
+}
+
+function encodeSignedDecimal(value: number): string {
+  let decimalValue = value;
+  decimalValue = Math.round(decimalValue * 1e5);
+  let binaryValue = (decimalValue & (2 ** 32 - 1)).toString(2).padStart(32, '0');
+  binaryValue = binaryValue.slice(1) + '0';
+  
+  if (decimalValue < 0) {
+    binaryValue = binaryValue.split('').map(bit => bit === '0' ? '1' : '0').join('');
+  }
+
+  const chunks = [];
+  for (let i = binaryValue.length - 5; i >= 0; i -= 5) {
+    chunks.push(binaryValue.slice(i, i + 5));
+  }
+
+  chunks.reverse();
+
+  const encodedChunks = chunks.map((chunk, index) =>
+    index < chunks.length - 1 ? parseInt(chunk, 2) | 0x20 : parseInt(chunk, 2)
+  );
+
+  const encodedString = encodedChunks.map(chunk => String.fromCharCode(chunk + 63)).join('');
+
+  return encodedString;
 }
 
 
@@ -119,54 +167,8 @@ function App() {
                   </Pin>
                 </AdvancedMarker>
               ))}
-              {dijkstraRoute?.map((latLng, id) => (
-                <AdvancedMarker
-                  key={id}
-                  position={{ lat: latLng.lng, lng: latLng.lat }}
-                  title={'Dijkstra'}
-                >
-                  <div
-                    style={{
-                      width: 16,
-                      height: 16,
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      background:
-                        aStarRoute?.some((point) => point.lat === latLng.lat && point.lng === latLng.lng)
-                          ? '#ff0000'
-                          : '#1dbe80',
-                      border: '2px solid #0e6443',
-                      borderRadius: '50%',
-                      transform: 'translate(-50%, -50%)',
-                    }}
-                  ></div>
-                </AdvancedMarker>
-              ))}
-              {aStarRoute?.map((latLng, id) => (
-                <AdvancedMarker
-                  key={id}
-                  position={{ lat: latLng.lng, lng: latLng.lat }}
-                  title={'A*'}
-                >
-                  <div
-                    style={{
-                      width: 16,
-                      height: 16,
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      background:
-                        dijkstraRoute?.some((point) => point.lat === latLng.lat && point.lng === latLng.lng)
-                          ? '#ff0000'
-                          : '#1dacbe',
-                      border: '2px solid #0e6443',
-                      borderRadius: '50%',
-                      transform: 'translate(-50%, -50%)',
-                    }}
-                  ></div>
-                </AdvancedMarker>
-              ))}
+              <Polygon strokeWeight={1.5} encodedPaths={encodePolyline(dijkstraRoute)} />
+              <Polygon strokeWeight={1.5} encodedPaths={encodePolyline(aStarRoute)} />
             </Map>
           </div>
           <div className={'w-4/12 h-5/6 mx-20'}>
