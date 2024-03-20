@@ -67,7 +67,8 @@ function encodePolyline(points: google.maps.LatLngLiteral[] | undefined): string
     return '';
   }
 
-  const result = google.maps.geometry.encoding.encodePath(points as google.maps.LatLngLiteral[])
+  const flippedPoints = points.map(({ lat, lng }) => ({ lat: lng, lng: lat }));
+  const result = google.maps.geometry.encoding.encodePath(flippedPoints as google.maps.LatLngLiteral[]);
   console.log(result);
   return result;
 }
