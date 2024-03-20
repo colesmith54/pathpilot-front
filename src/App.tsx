@@ -62,53 +62,25 @@ function fillInputs(marker: Marker, from: string, setFrom: (value: string) => vo
   }
 }
 
-function encodePolyline(points: google.maps.LatLngLiteral[] | undefined): string {
-  let encodedPolyline = '';
-  let prevLat = 0;
-  let prevLng = 0;
-
-  if (!points) {
-    return '';
-  }
-  for (const { lat, lng } of points) {
-    const dLat = lat - prevLat;
-    const dLng = lng - prevLng;
-
-    const encodedLat = encodeSignedDecimal(dLng);
-    const encodedLng = encodeSignedDecimal(dLat);
-
-    encodedPolyline += encodedLat + encodedLng;
-    console.log(dLat, dLng, encodedLat, encodedLng, encodedPolyline)
-
-    prevLat = lat;
-    prevLng = lng;
-  }
-
-  console.log(encodedPolyline);
-  return encodedPolyline;
-}
-
 function encodeSignedDecimal(value: number): string {
   let decimalValue = Math.round(value * 1e5);
   let binaryValue = Math.abs(decimalValue).toString(2).padStart(32, '0');
-  
+
   if (decimalValue < 0) {
     binaryValue = binaryValue.split('').map(bit => bit === '0' ? '1' : '0').join('');
     binaryValue = (parseInt(binaryValue, 2) + 1).toString(2).padStart(32, '0');
   }
 
-  binaryValue = binaryValue.slice(1) + '0';
+  binaryValue = binaryValue.slice(0, -1);
 
   if (decimalValue < 0) {
     binaryValue = binaryValue.split('').map(bit => bit === '0' ? '1' : '0').join('');
   }
 
   const chunks = [];
-  for (let i = binaryValue.length - 5; i >= 0; i -= 5) {
-    chunks.push(binaryValue.slice(i, i + 5));
+  for (let i = binaryValue.length; i > 0; i -= 5) {
+    chunks.push(binaryValue.slice(Math.max(0, i - 5), i));
   }
-
-  chunks.reverse();
 
   const encodedChunks = chunks.map((chunk, index) =>
     index < chunks.length - 1 ? parseInt(chunk, 2) | 0x20 : parseInt(chunk, 2)
@@ -117,6 +89,34 @@ function encodeSignedDecimal(value: number): string {
   const encodedString = encodedChunks.map(chunk => String.fromCharCode(chunk + 63)).join('');
 
   return encodedString;
+}
+
+function encodePolyline(points: google.maps.LatLngLiteral[] | undefined): string {
+  if (!points) {
+    return '';
+  }
+
+  let encodedPolyline = '';
+  let prevLat = 0;
+  let prevLng = 0;
+
+  for (const { lat, lng } of points) {
+    const roundedLat = Math.round(lat * 1e5) / 1e5;
+    const roundedLng = Math.round(lng * 1e5) / 1e5;
+
+    const dLat = roundedLat - prevLat;
+    const dLng = roundedLng - prevLng;
+
+    const encodedLat = encodeSignedDecimal(dLng);
+    const encodedLng = encodeSignedDecimal(dLat);
+
+    encodedPolyline += encodedLat + encodedLng;
+
+    prevLat = roundedLat;
+    prevLng = roundedLng;
+  }
+
+  return encodedPolyline;
 }
 
 
