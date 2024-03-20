@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "https://pathpilot.vercel.app/api/:path*",
-      "destination": "https://pathpilot-back.vercel.app/api/:path*"
-    }
-  ]
-}
