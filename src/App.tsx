@@ -131,8 +131,8 @@ function App() {
                   </Pin>
                 </AdvancedMarker>
               ))}
-              <Polygon strokeWeight={1.5} strokeOpacity={0.6} strokeColor={'#ff0000'} encodedPaths={dijkstraRoute ? [encodePolyline([...dijkstraRoute, ...dijkstraRoute.slice(1, -1).reverse()])] : []} />
-              <Polygon strokeWeight={1.5} strokeOpacity={0.6} strokeColor={'#00ff00'} encodedPaths={aStarRoute ? [encodePolyline([...aStarRoute, ...aStarRoute.slice(1, -1).reverse()])] : []} />
+              <Polygon strokeWeight={2.5} strokeOpacity={0.5} strokeColor={'#ff0000'} encodedPaths={dijkstraRoute ? [encodePolyline([...dijkstraRoute, ...dijkstraRoute.slice(1, -1).reverse()])] : []} />
+              <Polygon strokeWeight={2.5} strokeOpacity={0.5} strokeColor={'#00ffff'} encodedPaths={aStarRoute ? [encodePolyline([...aStarRoute, ...aStarRoute.slice(1, -1).reverse()])] : []} />
             </Map>
           </div>
           <div className={'w-4/12 h-5/6 mx-20'}>
