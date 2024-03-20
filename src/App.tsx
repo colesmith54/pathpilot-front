@@ -69,6 +69,10 @@ function encodePolyline(points: google.maps.LatLngLiteral[] | undefined): string
 
   console.log(points[0], points[-1])
 
+  if (!points[0] || !points[-1]) {
+    return '';
+  }
+
   const temp = points[0].lat;
   points[0].lat = parseFloat(points[0].lng.toFixed(5));
   points[0].lng = parseFloat(temp.toFixed(5));
