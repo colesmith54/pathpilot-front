@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://api.pathpilot-back.vercel.app/:path*"
+      "destination": "https://pathpilot-back.vercel.app/api/:path*"
     }
   ]
 }
