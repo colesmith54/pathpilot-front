@@ -63,9 +63,11 @@ function fillInputs(marker: Marker, from: string, setFrom: (value: string) => vo
 }
 
 function encodePolyline(points: google.maps.LatLngLiteral[] | undefined): string {
-  if (!points || !points[0] || !points[-1]) {
+  if (!points) {
     return '';
   }
+
+  console.log(points[0], points[-1])
 
   const temp = points[0].lat;
   points[0].lat = parseFloat(points[0].lng.toFixed(5));
