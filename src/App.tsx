@@ -74,8 +74,8 @@ function encodePolyline(points: google.maps.LatLngLiteral[] | undefined): string
     const dLat = lat - prevLat;
     const dLng = lng - prevLng;
 
-    const encodedLat = encodeSignedDecimal(dLng);
-    const encodedLng = encodeSignedDecimal(dLat);
+    const encodedLat = encodeSignedDecimal(dLat);
+    const encodedLng = encodeSignedDecimal(dLng);
 
     encodedPolyline += encodedLat + encodedLng;
     console.log(dLat, dLng, encodedLat, encodedLng, encodedPolyline)
