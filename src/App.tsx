@@ -132,7 +132,7 @@ function App() {
                 </AdvancedMarker>
               ))}
               <Polygon strokeWeight={2.5} strokeOpacity={0.7} strokeColor={'#0000ff'} encodedPaths={dijkstraRoute ? [encodePolyline([...dijkstraRoute, ...dijkstraRoute.slice(1, -1).reverse()])] : []} />
-              <Polygon strokeWeight={2.5} strokeOpacity={0.7} strokeColor={'#ff8c00'} encodedPaths={aStarRoute ? [encodePolyline([...aStarRoute, ...aStarRoute.slice(1, -1).reverse()])] : []} />
+              <Polygon strokeWeight={2.5} strokeOpacity={0.7} strokeColor={'#ff00ff'} encodedPaths={aStarRoute ? [encodePolyline([...aStarRoute, ...aStarRoute.slice(1, -1).reverse()])] : []} />
             </Map>
           </div>
           <div className={'w-4/12 h-5/6 mx-20'}>
