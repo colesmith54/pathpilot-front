@@ -1,1 +1,0 @@
-# pathpilot-front
