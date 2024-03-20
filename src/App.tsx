@@ -63,7 +63,7 @@ function fillInputs(marker: Marker, from: string, setFrom: (value: string) => vo
 }
 
 function encodePolyline(points: google.maps.LatLngLiteral[] | undefined): string {
-  if (!points) {
+  if (!points || points.length < 2) {
     return '';
   }
 
