@@ -72,6 +72,7 @@ function encodePolyline(points: google.maps.LatLngLiteral[] | undefined): string
     point.lng = parseFloat(temp.toFixed(5));
   }
   const result = google.maps.geometry.encoding.encodePath(points as google.maps.LatLngLiteral[])
+  console.log(result);
   return result;
 }
 
