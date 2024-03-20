@@ -74,8 +74,8 @@ function encodePolyline(points: google.maps.LatLngLiteral[] | undefined): string
     const dLat = lat - prevLat;
     const dLng = lng - prevLng;
 
-    const encodedLat = encodeSignedDecimal(dLat);
-    const encodedLng = encodeSignedDecimal(dLng);
+    const encodedLat = encodeSignedDecimal(dLng);
+    const encodedLng = encodeSignedDecimal(dLat);
 
     encodedPolyline += encodedLat + encodedLng;
     console.log(dLat, dLng, encodedLat, encodedLng, encodedPolyline)
@@ -89,11 +89,16 @@ function encodePolyline(points: google.maps.LatLngLiteral[] | undefined): string
 }
 
 function encodeSignedDecimal(value: number): string {
-  let decimalValue = value;
-  decimalValue = Math.round(decimalValue * 1e5);
-  let binaryValue = (decimalValue & (2 ** 32 - 1)).toString(2).padStart(32, '0');
-  binaryValue = binaryValue.slice(1) + '0';
+  let decimalValue = Math.round(value * 1e5);
+  let binaryValue = Math.abs(decimalValue).toString(2).padStart(32, '0');
   
+  if (decimalValue < 0) {
+    binaryValue = binaryValue.split('').map(bit => bit === '0' ? '1' : '0').join('');
+    binaryValue = (parseInt(binaryValue, 2) + 1).toString(2).padStart(32, '0');
+  }
+
+  binaryValue = binaryValue.slice(1) + '0';
+
   if (decimalValue < 0) {
     binaryValue = binaryValue.split('').map(bit => bit === '0' ? '1' : '0').join('');
   }
