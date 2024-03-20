@@ -133,8 +133,8 @@ function App() {
                   </Pin>
                 </AdvancedMarker>
               ))}
-              <Polygon strokeWeight={1.5} encodedPaths={[encodePolyline(dijkstraRoute)]} />
-              <Polygon strokeWeight={1.5} encodedPaths={[encodePolyline(aStarRoute)]} />
+              <Polygon strokeWeight={1.5} encodedPaths={[encodePolyline([...dijkstraRoute, ...dijkstraRoute.slice(1, -1).reverse()])]} />
+              <Polygon strokeWeight={1.5} encodedPaths={[encodePolyline([...aStarRoute, ...aStarRoute.slice(1, -1).reverse()])]} />
             </Map>
           </div>
           <div className={'w-4/12 h-5/6 mx-20'}>
