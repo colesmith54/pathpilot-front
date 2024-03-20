@@ -74,6 +74,7 @@ import {
       const paths = encodedPaths.map(path =>
         geometryLibrary.encoding.decodePath(path)
       );
+      console.log(paths)
       polygon.setPaths(paths);
     }, [polygon, encodedPaths, geometryLibrary]);
   
