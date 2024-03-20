@@ -62,11 +62,14 @@ function fillInputs(marker: Marker, from: string, setFrom: (value: string) => vo
   }
 }
 
-function encodePolyline(points: google.maps.LatLngLiteral[]): string {
+function encodePolyline(points: google.maps.LatLngLiteral[] | undefined): string {
   let encodedPolyline = '';
   let prevLat = 0;
   let prevLng = 0;
 
+  if (!points) {
+    return '';
+  }
   for (const { lat, lng } of points) {
     const dLat = lat - prevLat;
     const dLng = lng - prevLng;
@@ -167,8 +170,8 @@ function App() {
                   </Pin>
                 </AdvancedMarker>
               ))}
-              <Polygon strokeWeight={1.5} encodedPaths={encodePolyline(dijkstraRoute)} />
-              <Polygon strokeWeight={1.5} encodedPaths={encodePolyline(aStarRoute)} />
+              <Polygon strokeWeight={1.5} encodedPaths={encodePolyline([dijkstraRoute])} />
+              <Polygon strokeWeight={1.5} encodedPaths={encodePolyline([aStarRoute])} />
             </Map>
           </div>
           <div className={'w-4/12 h-5/6 mx-20'}>
