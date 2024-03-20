@@ -111,6 +111,7 @@ function encodePolyline(points: google.maps.LatLngLiteral[] | undefined): string
     const encodedLng = encodeSignedDecimal(dLat);
 
     encodedPolyline += encodedLat + encodedLng;
+    console.log(dLng, dLat, encodedLat, encodedLng, encodedPolyline)
 
     prevLat = roundedLat;
     prevLng = roundedLng;
