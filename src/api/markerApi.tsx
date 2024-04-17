@@ -26,7 +26,6 @@ const findRoute = async (markers: Marker[], setDijkstraRoute: (value: google.map
     try {
         const response = await axios.get('https://pathpilot-back.vercel.app/api/route', { params: { start: markers[0], end: markers[1] } });
         const { dijkstra, aStar } = response.data;
-        console.log(dijkstra, aStar);
         setDijkstraRoute(dijkstra);
         setAStarRoute(aStar);
         return response.data;
