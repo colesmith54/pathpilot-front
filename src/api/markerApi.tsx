@@ -29,7 +29,7 @@ const findRoute = async (markers: Marker[], setDijkstraRoute: (value: google.map
         setDijkstraRoute(dijkstra);
         setAStarRoute(aStar);
 
-        console.log("Dijkstra: " + dijkstra);
+        console.log("Dijkstra: " + dijkstraTime);
         console.log("aStar: " + aStarTime);
 
         return response.data;
