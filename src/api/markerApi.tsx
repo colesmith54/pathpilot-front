@@ -25,9 +25,13 @@ const fetchMarkerInfo = async (marker: Marker) => {
 const findRoute = async (markers: Marker[], setDijkstraRoute: (value: google.maps.LatLngLiteral[]) => void, setAStarRoute: (value: google.maps.LatLngLiteral[]) => void) => {
     try {
         const response = await axios.get('https://pathpilot-back.vercel.app/api/route', { params: { start: markers[0], end: markers[1] } });
-        const { dijkstra, aStar } = response.data;
+        const { dijkstra, aStar, dijkstraTime, aStarTime } = response.data;
         setDijkstraRoute(dijkstra);
         setAStarRoute(aStar);
+
+        console.log("Dijkstra: " + dijkstra);
+        console.log("aStar: " + aStarTime);
+
         return response.data;
     } catch (error) {
         console.error(error);
