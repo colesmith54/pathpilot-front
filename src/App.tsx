@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { Spacer } from "@/components/ui/spacer"
 import { Polygon } from "@/components/ui/polygon"
 import { GoArrowDown } from "react-icons/go"
-import { MultiStepLoader as Loader } from "@/components/ui/load";
 
 import { fetchMarkerInfo, findRoute } from "@/api/markerApi"
 
@@ -17,24 +16,6 @@ type Marker = {
   placeId: string;
   address: string;
 }
-
-const loadingStates = [
-  {
-    text: "Fetching data",
-  },
-  {
-    text: "Generating graph",
-  },
-  {
-    text: "Traversing graph (Dijkstra's)",
-  },
-  {
-    text: "Traversing graph (A*)",
-  },
-  {
-    text: "Comapring results",
-  }
-];
 
 function fillInputs(marker: Marker, from: string, setFrom: (value: string) => void, to: string, setTo: (value: string) => void, select: number) {
   const name = marker.address ? marker.address : 'no address! pick a better point :)';
@@ -78,7 +59,6 @@ function App() {
   const [markers, setMarkers] = useState<Marker[]>([]);
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
-  const [loading, setLoading] = useState(false);
 
   const [dijkstraRoute, setDijkstraRoute] = useState<google.maps.LatLngLiteral[]>();
   const [aStarRoute, setAStarRoute] = useState<google.maps.LatLngLiteral[]>();
@@ -102,7 +82,6 @@ function App() {
   return (
     <div className="h-full w-full dark:bg-black bg-white  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center">
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
-      <Loader loadingStates={loadingStates} loading={loading} duration={2000} />
       <APIProvider apiKey={import.meta.env.VITE_API_KEY}>
         <div className={'w-full h-full flex items-center z-10'}>
           <div className={'w-8/12 h-5/6 rounded-md border border-input bg-background mx-16'}>
@@ -150,9 +129,7 @@ function App() {
             <Spacer size={250} />
             <div className={'flex justify-center'}>
               <Button size={'lg'} onClick={() => {
-                setLoading(true);
                 findRoute(markers, setDijkstraRoute, setAStarRoute);
-                setLoading(false);
               }}>Find Route</Button>
             </div>
           </div>
