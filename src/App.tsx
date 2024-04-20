@@ -8,10 +8,6 @@ import { Polygon } from "@/components/ui/polygon"
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
 import { GoArrowDown, GoPlus } from "react-icons/go"
 import { RxCross1 } from "react-icons/rx"
