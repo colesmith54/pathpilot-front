@@ -62,6 +62,7 @@ function App() {
 
   const [dijkstraRoute, setDijkstraRoute] = useState<google.maps.LatLngLiteral[]>();
   const [aStarRoute, setAStarRoute] = useState<google.maps.LatLngLiteral[]>();
+  const [bfsRoute, setBfsRoute] = useState<google.maps.LatLngLiteral[]>();
 
   const numberOfStops = 2;
 
@@ -111,7 +112,8 @@ function App() {
                 </AdvancedMarker>
               ))}
               <Polygon strokeWeight={3.0} strokeOpacity={0.7} strokeColor={'#0000ff'} encodedPaths={dijkstraRoute ? [encodePolyline([...dijkstraRoute, ...dijkstraRoute.slice(1, -1).reverse()])] : []} />
-              <Polygon strokeWeight={3.0} strokeOpacity={0.7} strokeColor={'#ff00ff'} encodedPaths={aStarRoute ? [encodePolyline([...aStarRoute, ...aStarRoute.slice(1, -1).reverse()])] : []} />
+              <Polygon strokeWeight={3.0} strokeOpacity={0.7} strokeColor={'#ff0000'} encodedPaths={aStarRoute ? [encodePolyline([...aStarRoute, ...aStarRoute.slice(1, -1).reverse()])] : []} />
+              <Polygon strokeWeight={3.0} strokeOpacity={0.7} strokeColor={'#00ff00'} encodedPaths={bfsRoute ? [encodePolyline([...bfsRoute, ...bfsRoute.slice(1, -1).reverse()])] : []} />
             </Map>
           </div>
           <div className={'w-4/12 h-5/6 mx-20'}>
@@ -130,7 +132,7 @@ function App() {
             <Spacer size={250} />
             <div className={'flex justify-center'}>
               <Button size={'lg'} onClick={() => {
-                findRoute(markers, setDijkstraRoute, setAStarRoute);
+                findRoute(markers, setDijkstraRoute, setAStarRoute, setBfsRoute);
               }}>Find Route</Button>
             </div>
           </div>
