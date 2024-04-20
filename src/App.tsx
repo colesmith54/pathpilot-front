@@ -5,7 +5,8 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Spacer } from "@/components/ui/spacer"
 import { Polygon } from "@/components/ui/polygon"
-import { GoArrowDown } from "react-icons/go"
+import { GoArrowDown, GoPlus } from "react-icons/go"
+import { RxCross1 } from "react-icons/rx"
 
 import { fetchMarkerInfo, findRoute } from "@/api/markerApi"
 
@@ -53,18 +54,17 @@ function encodePolyline(points: google.maps.LatLngLiteral[] | undefined): string
   return result;
 }
 
-
 function App() {
   const position = {lat: 29.643946, lng: -82.355}; // uf :)
   const [markers, setMarkers] = useState<Marker[]>([]);
   const [from, setFrom] = useState('');
+  const [mid, setMid] = useState('');
   const [to, setTo] = useState('');
+  const [numberOfStops, setNumberOfStops] = useState(2);
 
   const [dijkstraRoute, setDijkstraRoute] = useState<google.maps.LatLngLiteral[]>();
   const [aStarRoute, setAStarRoute] = useState<google.maps.LatLngLiteral[]>();
   const [bfsRoute, setBfsRoute] = useState<google.maps.LatLngLiteral[]>();
-
-  const numberOfStops = 2;
 
   function onPlaceSelect(place: google.maps.places.PlaceResult | null, setMarkers: (value: Marker[]) => void, select: number) {
     if (place) {
@@ -121,11 +121,38 @@ function App() {
             <Label htmlFor='start'>From:</Label>
             <Input className={'my-2'} id="1" placeholder='Enter location' value={from} setValue={setFrom} setMarkers={setMarkers} onPlaceSelect={onPlaceSelect}/>
 
-            <Spacer size={25} />
+            <Spacer size={30} />
             <div className={'flex justify-center'}>
               <GoArrowDown/>
+              { numberOfStops === 2 ? (
+                  <GoPlus
+                    onClick={() => {
+                      setNumberOfStops(3);
+                    }}
+                  />
+                ) : (
+                  <RxCross1
+                    onClick={() => {
+                      setNumberOfStops(2);
+                    }}
+                  />
+                )
+              }
             </div>
-            <Spacer size={10} />
+
+            { numberOfStops === 3 ? (
+              <>
+                <Spacer size={10} />
+                <Label htmlFor='stop'>Stop:</Label>
+                <Input className={'my-2'} id="2" placeholder='' value={mid} setValue={setMid} setMarkers={setMarkers} onPlaceSelect={onPlaceSelect}/>
+                <Spacer size={30} />
+                <div className={'flex justify-center'}>
+                  <GoArrowDown/>
+                </div>
+              </>
+            ) : (
+              <Spacer size={10} />
+            )}
 
             <Label htmlFor='destination'>To:</Label>
             <Input className={'my-2'} id="2" placeholder='' value={to} setValue={setTo} setMarkers={setMarkers} onPlaceSelect={onPlaceSelect}/>
