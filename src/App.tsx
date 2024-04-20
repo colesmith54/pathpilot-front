@@ -100,6 +100,7 @@ function App() {
                 setMarkers([...markers.slice(-numberOfStops+1), ev.detail] as Marker[]);
                 setDijkstraRoute([]);
                 setAStarRoute([]);
+                setBfsRoute([]);
               }}>
               {markers.map((marker, id) => (
                 <AdvancedMarker
@@ -112,7 +113,7 @@ function App() {
                 </AdvancedMarker>
               ))}
               <Polygon strokeWeight={3.0} strokeOpacity={0.7} strokeColor={'#0000ff'} encodedPaths={dijkstraRoute ? [encodePolyline([...dijkstraRoute, ...dijkstraRoute.slice(1, -1).reverse()])] : []} />
-              <Polygon strokeWeight={3.0} strokeOpacity={0.7} strokeColor={'#ff0000'} encodedPaths={aStarRoute ? [encodePolyline([...aStarRoute, ...aStarRoute.slice(1, -1).reverse()])] : []} />
+              <Polygon strokeWeight={3.0} strokeOpacity={0.7} strokeColor={'#ff00ff'} encodedPaths={aStarRoute ? [encodePolyline([...aStarRoute, ...aStarRoute.slice(1, -1).reverse()])] : []} />
               <Polygon strokeWeight={3.0} strokeOpacity={0.7} strokeColor={'#00ff00'} encodedPaths={bfsRoute ? [encodePolyline([...bfsRoute, ...bfsRoute.slice(1, -1).reverse()])] : []} />
             </Map>
           </div>
