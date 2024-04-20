@@ -73,6 +73,10 @@ function App() {
   const [aStarTime, setAStarTime] = useState(0);
   const [bfsTime, setBfsTime] = useState(0);
 
+  const [dijkstra, setDijkstra]  = useState(true);
+  const [aStar, setAStar]  = useState(true);
+  const [bfs, setBfs]  = useState(true);
+
   function onPlaceSelect(place: google.maps.places.PlaceResult | null, setMarkers: (value: Marker[]) => void, select: number) {
     if (place) {
       const newMarker = {} as Marker;
@@ -122,9 +126,9 @@ function App() {
                   </Pin>
                 </AdvancedMarker>
               ))}
-              <Polygon strokeWeight={3.0} strokeOpacity={0.7} strokeColor={'#00ff00'} encodedPaths={bfsRoute ? [encodePolyline([...bfsRoute, ...bfsRoute.slice(1, -1).reverse()])] : []} />
-              <Polygon strokeWeight={3.0} strokeOpacity={0.7} strokeColor={'#0000ff'} encodedPaths={dijkstraRoute ? [encodePolyline([...dijkstraRoute, ...dijkstraRoute.slice(1, -1).reverse()])] : []} />
-              <Polygon strokeWeight={3.0} strokeOpacity={0.7} strokeColor={'#ff0000'} encodedPaths={aStarRoute ? [encodePolyline([...aStarRoute, ...aStarRoute.slice(1, -1).reverse()])] : []} />
+              {bfs && <Polygon strokeWeight={3.0} strokeOpacity={0.7} strokeColor={'#00ff00'} encodedPaths={bfsRoute ? [encodePolyline([...bfsRoute, ...bfsRoute.slice(1, -1).reverse()])] : []} />}
+              {dijkstra && <Polygon strokeWeight={3.0} strokeOpacity={0.7} strokeColor={'#0000ff'} encodedPaths={dijkstraRoute ? [encodePolyline([...dijkstraRoute, ...dijkstraRoute.slice(1, -1).reverse()])] : []} />}
+              {aStar && <Polygon strokeWeight={3.0} strokeOpacity={0.7} strokeColor={'#ff0000'} encodedPaths={aStarRoute ? [encodePolyline([...aStarRoute, ...aStarRoute.slice(1, -1).reverse()])] : []} />}
             </Map>
           </div>
           <div className={'w-4/12 h-5/6 mx-20'}>
@@ -175,16 +179,19 @@ function App() {
                   <div className="flex flex-col space-y-1.5">
                     <Spacer size={20} />
                     <div className="flex flex-row justify-around">
+                      <input type="checkbox" checked={dijkstra} onClick={() => {setDijkstra(!dijkstra)}}/>
                       Dijkstra's:
                       {dijkstraTime.toString() + " ms"}
                     </div>
                     <Spacer size={10} />
                     <div className="flex flex-row justify-around">
+                      <input type="checkbox" checked={aStar} onClick={() => {setAStar(!aStar)}}/>
                       A*:
                       {aStarTime.toString() + " ms"}
                     </div>
                     <Spacer size={10} />
                     <div className="flex flex-row justify-around">
+                      <input type="checkbox" checked={bfs} onClick={() => {setBfs(!bfs)}}/>
                       BFS:
                       {bfsTime.toString() + " ms"}
                     </div>
