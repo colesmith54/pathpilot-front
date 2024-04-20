@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/card"
 import { GoArrowDown, GoPlus } from "react-icons/go"
 import { RxCross1 } from "react-icons/rx"
-
 import { fetchMarkerInfo, findRoute } from "@/api/markerApi"
 
 import './App.css'
@@ -176,17 +175,17 @@ function App() {
                   <div className="flex flex-col space-y-1.5">
                     <Spacer size={20} />
                     <div className="flex flex-row justify-around">
-                      <Label htmlFor='Dijkstra'>Dijkstra's:</Label>
+                      Dijkstra's:
                       {dijkstraTime.toString() + " ms"}
                     </div>
                     <Spacer size={10} />
                     <div className="flex flex-row justify-around">
-                      <Label htmlFor='A*'>A*:</Label>
+                      A*:
                       {aStarTime.toString() + " ms"}
                     </div>
                     <Spacer size={10} />
                     <div className="flex flex-row justify-around">
-                      <Label htmlFor='BFS'>BFS:</Label>
+                      BFS:
                       {bfsTime.toString() + " ms"}
                     </div>
                     <Spacer size={6} />
