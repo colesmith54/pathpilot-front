@@ -180,19 +180,19 @@ function App() {
                     <Spacer size={20} />
                     <div className="flex flex-row justify-around">
                       <input type="checkbox" checked={dijkstra} onClick={() => {setDijkstra(!dijkstra)}}/>
-                      Dijkstra's:
+                      <div>Dijkstra's:</div>
                       {dijkstraTime.toString() + " ms"}
                     </div>
                     <Spacer size={10} />
                     <div className="flex flex-row justify-around">
-                      <input type="checkbox" checked={aStar} onClick={() => {setAStar(!aStar)}}/>
-                      A*:
+                      <input className="accent-red-600" type="checkbox" checked={aStar} onClick={() => {setAStar(!aStar)}}/>
+                      <div>A*:</div>
                       {aStarTime.toString() + " ms"}
                     </div>
                     <Spacer size={10} />
                     <div className="flex flex-row justify-around">
-                      <input type="checkbox" checked={bfs} onClick={() => {setBfs(!bfs)}}/>
-                      BFS:
+                      <input className="accent-lime-600" type="checkbox" checked={bfs} onClick={() => {setBfs(!bfs)}}/>
+                      <div>BFS:</div>
                       {bfsTime.toString() + " ms"}
                     </div>
                     <Spacer size={6} />
