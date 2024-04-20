@@ -5,6 +5,14 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Spacer } from "@/components/ui/spacer"
 import { Polygon } from "@/components/ui/polygon"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { GoArrowDown, GoPlus } from "react-icons/go"
 import { RxCross1 } from "react-icons/rx"
 
@@ -66,6 +74,10 @@ function App() {
   const [aStarRoute, setAStarRoute] = useState<google.maps.LatLngLiteral[]>();
   const [bfsRoute, setBfsRoute] = useState<google.maps.LatLngLiteral[]>();
 
+  const [dijkstraTime, setDijkstraTime] = useState(0);
+  const [aStarTime, setAStarTime] = useState(0);
+  const [bfsTime, setBfsTime] = useState(0);
+
   function onPlaceSelect(place: google.maps.places.PlaceResult | null, setMarkers: (value: Marker[]) => void, select: number) {
     if (place) {
       const newMarker = {} as Marker;
@@ -101,6 +113,9 @@ function App() {
                 setDijkstraRoute([]);
                 setAStarRoute([]);
                 setBfsRoute([]);
+                setDijkstraTime(0);
+                setAStarTime(0);
+                setBfsTime(0);
               }}>
               {markers.map((marker, id) => (
                 <AdvancedMarker
@@ -157,10 +172,38 @@ function App() {
             <Label htmlFor='destination'>To:</Label>
             <Input className={'my-2'} id="2" placeholder='' value={to} setValue={setTo} setMarkers={setMarkers} onPlaceSelect={onPlaceSelect}/>
 
-            <Spacer size={250} />
+            <Spacer size={125} />
+
+            <Card>
+              <CardContent>
+                <div className="grid w-full items-center gap-4">
+                  <div className="flex flex-col space-y-1.5">
+                    <Spacer size={20} />
+                    <div className="flex flex-row justify-around">
+                      <Label htmlFor='Dijkstra'>Dijkstra's:</Label>
+                      {dijkstraTime.toString() + " ms"}
+                    </div>
+                    <Spacer size={10} />
+                    <div className="flex flex-row justify-around">
+                      <Label htmlFor='A*'>A*:</Label>
+                      {aStarTime.toString() + " ms"}
+                    </div>
+                    <Spacer size={10} />
+                    <div className="flex flex-row justify-around">
+                      <Label htmlFor='BFS'>BFS:</Label>
+                      {bfsTime.toString() + " ms"}
+                    </div>
+                    <Spacer size={6} />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Spacer size={125} />
+
             <div className={'flex justify-center'}>
               <Button size={'lg'} onClick={() => {
-                findRoute(markers, setDijkstraRoute, setAStarRoute, setBfsRoute);
+                findRoute(markers, setDijkstraRoute, setAStarRoute, setBfsRoute, setDijkstraTime, setAStarTime, setBfsTime);
               }}>Find Route</Button>
             </div>
           </div>
