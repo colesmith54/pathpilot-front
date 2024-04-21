@@ -165,6 +165,7 @@ function App() {
                   <RxCross1
                     onClick={() => {
                       setNumberOfStops(2);
+                      setMid('');
                       setMarkers([...markers.slice(-numberOfStops)])
                     }}
                   />
