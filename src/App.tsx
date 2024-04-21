@@ -168,7 +168,9 @@ function App() {
                     onClick={() => {
                       setNumberOfStops(2);
                       setMid('');
-                      setMarkers([markers[0], markers[2]])
+                      if (to !== '') {
+                        setMarkers([markers[0], markers[2]])
+                      }
                     }}
                   />
                 )
