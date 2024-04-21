@@ -21,7 +21,7 @@ type Marker = {
   address: string;
 }
 
-function fillInputs(marker: Marker, from: string, setFrom: (value: string) => void, to: string, setTo: (value: string) => void, select: number) {
+function fillInputs(marker: Marker, from: string, setFrom: (value: string) => void, mid: string, setMid: (value: string) => void, to: string, setTo: (value: string) => void, select: number, isStop: boolean) {
   const name = marker.address ? marker.address : 'no address! pick a better point :)';
   if (name === '') {
     return;
@@ -37,9 +37,25 @@ function fillInputs(marker: Marker, from: string, setFrom: (value: string) => vo
     return;
   }
 
+  if (select === 3) {
+    setMid(name);
+    return;
+  }
+
   if (from === '') {
     setFrom(name);
+  } else if (isStop && mid === '') {
+    if (to === '') {
+      setMid(name);
+    } else {
+      setMid(to);
+      setTo(name)
+    }
   } else if (to === '') {
+    setTo(name);
+  } else if (isStop) {
+    setFrom(mid);
+    setMid(to);
     setTo(name);
   } else {
     setFrom(to);
@@ -86,7 +102,7 @@ function App() {
       };
       newMarker.placeId = place.place_id as string;
       newMarker.address = place.formatted_address as string;
-      fillInputs(newMarker, from, setFrom, to, setTo, select);
+      fillInputs(newMarker, from, setFrom, mid, setMid, to, setTo, select, numberOfStops === 3);
       setMarkers([...markers.slice(-numberOfStops+1), newMarker] as Marker[]);
     }
   }
@@ -107,7 +123,7 @@ function App() {
               disableDoubleClickZoom={true}
               onClick={async ev => {
                 const markerInfo = await fetchMarkerInfo(ev.detail as Marker);
-                fillInputs(markerInfo as Marker, from, setFrom, to, setTo, 0);
+                fillInputs(markerInfo as Marker, from, setFrom, mid, setMid, to, setTo, 0, numberOfStops === 3);
                 setMarkers([...markers.slice(-numberOfStops+1), ev.detail] as Marker[]);
                 setDijkstraRoute([]);
                 setAStarRoute([]);
@@ -142,12 +158,20 @@ function App() {
                   <GoPlus
                     onClick={() => {
                       setNumberOfStops(3);
+                      setMid(to);
+                      setTo('');
+                      setMarkers([...markers.slice(-numberOfStops)])
                     }}
                   />
                 ) : (
                   <RxCross1
                     onClick={() => {
                       setNumberOfStops(2);
+                      if (mid !== '' && to === '') {
+                        setTo(mid);
+                      }
+                      setMid('');
+                      setMarkers([markers[0], markers[2]])
                     }}
                   />
                 )
@@ -158,7 +182,7 @@ function App() {
               <>
                 <Spacer size={10} />
                 <Label htmlFor='stop'>Stop:</Label>
-                <Input className={'my-2'} id="2" placeholder='' value={mid} setValue={setMid} setMarkers={setMarkers} onPlaceSelect={onPlaceSelect}/>
+                <Input className={'my-2'} id="3" placeholder='' value={mid} setValue={setMid} setMarkers={setMarkers} onPlaceSelect={onPlaceSelect}/>
                 <Spacer size={30} />
                 <div className={'flex justify-center'}>
                   <GoArrowDown/>
