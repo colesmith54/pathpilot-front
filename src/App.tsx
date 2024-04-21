@@ -167,10 +167,11 @@ function App() {
                   <RxCross1
                     onClick={() => {
                       setNumberOfStops(2);
-                      setMid('');
-                      if (to !== '') {
-                        setMarkers([markers[0], markers[2]])
+                      if (mid !== '' && to === '') {
+                        setTo(mid);
                       }
+                      setMid('');
+                      setMarkers([markers[0], markers[2]])
                     }}
                   />
                 )
