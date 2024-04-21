@@ -45,7 +45,12 @@ function fillInputs(marker: Marker, from: string, setFrom: (value: string) => vo
   if (from === '') {
     setFrom(name);
   } else if (isStop && mid === '') {
-    setMid(name)
+    if (to === '') {
+      setMid(name);
+    } else {
+      setMid(to);
+      setTo(name)
+    }
   } else if (to === '') {
     setTo(name);
   } else if (isStop) {
@@ -153,12 +158,14 @@ function App() {
                   <GoPlus
                     onClick={() => {
                       setNumberOfStops(3);
+                      setMarkers([...markers.slice(-numberOfStops)])
                     }}
                   />
                 ) : (
                   <RxCross1
                     onClick={() => {
                       setNumberOfStops(2);
+                      setMarkers([...markers.slice(-numberOfStops)])
                     }}
                   />
                 )
