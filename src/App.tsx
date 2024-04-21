@@ -158,6 +158,8 @@ function App() {
                   <GoPlus
                     onClick={() => {
                       setNumberOfStops(3);
+                      setMid(to);
+                      setTo('');
                       setMarkers([...markers.slice(-numberOfStops)])
                     }}
                   />
@@ -166,7 +168,7 @@ function App() {
                     onClick={() => {
                       setNumberOfStops(2);
                       setMid('');
-                      setMarkers([...markers.slice(-numberOfStops)])
+                      setMarkers([markers[0], markers[2]])
                     }}
                   />
                 )
