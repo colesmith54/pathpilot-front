@@ -25,7 +25,7 @@ const fetchMarkerInfo = async (marker: Marker) => {
 const findRoute = async (markers: Marker[], setDijkstraRoute: (value: google.maps.LatLngLiteral[]) => void, setAStarRoute: (value: google.maps.LatLngLiteral[]) => void, setBfsRoute: (value: google.maps.LatLngLiteral[]) => void, setDijkstraTime: (value: number) => void, setAStarTime: (value: number) => void, setBfstime: (value: number) => void) => {
     try {
         const response = markers.length > 2 ? 
-            await axios.get('https://pathpilot-back.vercel.app/api/route', { params: { start: markers[0], mid: markers[1], end: markers[1] } }) :
+            await axios.get('https://pathpilot-back.vercel.app/api/route', { params: { start: markers[0], mid: markers[1], end: markers[2] } }) :
             await axios.get('https://pathpilot-back.vercel.app/api/route', { params: { start: markers[0], end: markers[1] } });
         let { dijkstra, aStar, dijkstraTime, aStarTime, bfs, bfsTime } = response.data;
 
